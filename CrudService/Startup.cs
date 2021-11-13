@@ -1,3 +1,4 @@
+using CrudData.core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,7 +27,7 @@ namespace CrudService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            pIServiceCollection.Configure<ConnectionStrings>(_IConfiguration.GetSection("StringConnection"));
+            services.Configure<StringConnection>(Configuration.GetSection("StringConnection"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

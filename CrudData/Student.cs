@@ -16,6 +16,6 @@ namespace CrudData
         public string email { get; set; }
         public string phone { get; set; }
         public string address { get; set; }
-        public int age  { get; set; }
+        
 }
 }
