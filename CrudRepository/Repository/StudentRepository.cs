@@ -35,7 +35,7 @@ namespace CrudRepository.Repository
                     try
                     {
                         _SqlConnection.Open();
-                        SqlCommand _SqlCommand = new("dbo.SPCreateStudent", _SqlConnection)
+                        SqlCommand _SqlCommand = new("dbo.createStudent", _SqlConnection)
                         {
                             CommandType = CommandType.StoredProcedure
                         };
@@ -58,37 +58,6 @@ namespace CrudRepository.Repository
 
         }
 
-        void IStudent.delete(int id)
-        {
-            using (SqlConnection _SqlConnection = new(StringConnection.Value.DefaultConnection))
-            {
-                try
-                {
-                    try
-                    {
-                        _SqlConnection.Open();
-                        SqlCommand _SqlCommand = new("dbo.SPDeleteStudentById", _SqlConnection)
-                        {
-                            CommandType = CommandType.StoredProcedure
-                        };
-
-                        _SqlCommand.Parameters.AddWithValue("@id", SqlDbType.Int).Value = id;
-                        _SqlCommand.ExecuteReader();
-
-                    }
-                    catch (Exception exception)
-                    {
-                        throw new Exception(string.Concat("Delete(int id) Exception: ", exception.Message));
-                    }
-                }
-                finally
-                {
-                    _SqlConnection.Close();
-                    _SqlConnection.Dispose();
-                }
-            }
-        }
-
         IEnumerable<Student> IStudent.getAll()
         {
             List<Student> lstStudent = new();
@@ -99,7 +68,7 @@ namespace CrudRepository.Repository
                     try
                     {
                         _SqlConnection.Open();
-                        SqlCommand _SqlCommand = new("dbo.SPGetAllStudent", _SqlConnection)
+                        SqlCommand _SqlCommand = new("dbo.getAllStudent", _SqlConnection)
                         {
                             CommandType = CommandType.StoredProcedure
                         };
@@ -124,7 +93,7 @@ namespace CrudRepository.Repository
                     }
                     catch (Exception exception)
                     {
-                        throw new Exception(string.Concat("GetAllStudent() Exception: ", exception.Message));
+                        throw new Exception(string.Concat("getAllStudent() Exception: ", exception.Message));
                     }
                 }
                 finally
@@ -146,7 +115,7 @@ namespace CrudRepository.Repository
                     try
                     {
                         _SqlConnection.Open();
-                        SqlCommand _SqlCommand = new("dbo.SPGetStudentById", _SqlConnection)
+                        SqlCommand _SqlCommand = new("dbo.getStudentById", _SqlConnection)
                         {
                             CommandType = CommandType.StoredProcedure
                         };
@@ -180,42 +149,70 @@ namespace CrudRepository.Repository
                 }
                 return objStudent;
             }
-        
-    }
+
+        }
 
         void IStudent.update(Student student)
-    {
-        string strPersonJson = JsonConvert.SerializeObject(student);
-        using (SqlConnection _SqlConnection = new(StringConnection.Value.DefaultConnection))
         {
-            try
+            string strPersonJson = JsonConvert.SerializeObject(student);
+            using (SqlConnection _SqlConnection = new(StringConnection.Value.DefaultConnection))
             {
                 try
                 {
-                    _SqlConnection.Open();
-                    SqlCommand _SqlCommand = new("dbo.SPUpdateStudentById", _SqlConnection)
+                    try
                     {
-                        CommandType = CommandType.StoredProcedure
-                    };
+                        _SqlConnection.Open();
+                        SqlCommand _SqlCommand = new("dbo.updateStudentById", _SqlConnection)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
 
-                    _SqlCommand.Parameters.AddWithValue("@jsonStudent", strPersonJson);
-                    _SqlCommand.ExecuteReader();
+                        _SqlCommand.Parameters.AddWithValue("@jsonStudent", strPersonJson);
+                        _SqlCommand.ExecuteReader();
 
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new Exception(string.Concat("Update(Student student) Exception: ", exception.Message));
+                    }
                 }
-                catch (Exception exception)
+                finally
                 {
-                    throw new Exception(string.Concat("Update(Student student) Exception: ", exception.Message));
+                    _SqlConnection.Close();
+                    _SqlConnection.Dispose();
                 }
             }
-            finally
+
+        }
+        void IStudent.delete(int id)
+        {
+            using (SqlConnection _SqlConnection = new(StringConnection.Value.DefaultConnection))
             {
-                _SqlConnection.Close();
-                _SqlConnection.Dispose();
+                try
+                {
+                    try
+                    {
+                        _SqlConnection.Open();
+                        SqlCommand _SqlCommand = new("dbo.SPDeleteStudentById", _SqlConnection)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
+
+                        _SqlCommand.Parameters.AddWithValue("@id", SqlDbType.Int).Value = id;
+                        _SqlCommand.ExecuteReader();
+
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new Exception(string.Concat("Delete(int id) Exception: ", exception.Message));
+                    }
+                }
+                finally
+                {
+                    _SqlConnection.Close();
+                    _SqlConnection.Dispose();
+                }
             }
         }
-
-    } 
-
     }
-    
 }

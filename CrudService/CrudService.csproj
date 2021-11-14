@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CrudBLL\CrudBLL.csproj" />
     <ProjectReference Include="..\CrudData\CrudData.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,5 @@
 using CrudData.core;
+using CrudRepository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,9 @@ namespace CrudService
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<StringConnection>(Configuration.GetSection("StringConnection"));
+            // Injeciones
+            services.AddScoped<IStudent, CrudRepository.Repository.StudentRepository>();
+            services.AddScoped<ICourse, CrudRepository.Repository.CourseRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

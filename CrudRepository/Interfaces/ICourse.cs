@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CrudRepository.Interfaces
 {
-    interface ICourse
+    public interface ICourse
     {
 
         IEnumerable<Course> getAll();

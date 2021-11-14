@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace CrudBLL
 {
-    public class StudentService
+    public class CourseService
     {
-        private readonly IStudent _Repository;
+        private readonly ICourse _Repository;
 
-        public StudentService(IStudent istudent)
+        public CourseService(ICourse icourse)
         {
-            _Repository = istudent;
+            _Repository = icourse;
         }
 
-        public void Create(Student student)
+        public void Create(Course course)
         {
-            _Repository.create(student);
+            _Repository.create(course);
         }
 
         public void Delete(int id)
@@ -27,19 +27,19 @@ namespace CrudBLL
             _Repository.delete(id);
         }
 
-        public IEnumerable<Student> GetAll()
+        public IEnumerable<Course> GetAll()
         {
             return _Repository.getAll();
         }
 
-        public Student GetById(int id)
+        public Course GetById(int id)
         {
             return _Repository.getById(id);
         }
 
-        public void Update(Student student)
+        public void Update(Course course)
         {
-            _Repository.update(student);
+            _Repository.update(course);
         }
     }
 }
