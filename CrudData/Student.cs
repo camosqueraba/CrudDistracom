@@ -16,6 +16,11 @@ namespace CrudData
         public string email { get; set; }
         public string phone { get; set; }
         public string address { get; set; }
-        
-}
+
+        public string courses { get; set; }
+        public ProfileInterests profileInterests { get; set; }
+
+        public UserNotifications userNotifications { get; set; }
+
+    }
 }

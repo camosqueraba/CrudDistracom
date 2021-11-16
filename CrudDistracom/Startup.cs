@@ -1,3 +1,4 @@
+using CrudDistracom.Models.core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +24,7 @@ namespace CrudDistracom
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ConfigurationManagement>(Configuration.GetSection("ConfigurationManagement"));
             services.AddControllersWithViews();
         }
 

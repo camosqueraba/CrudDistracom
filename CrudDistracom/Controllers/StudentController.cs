@@ -1,86 +1,91 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CrudDistracom.Models;
+using CrudDistracom.Models.core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CrudDistracom.Controllers
 {
     public class StudentController : Controller
     {
-        // GET: StudentController
+        private readonly IOptions<ConfigurationManagement> _Service;
+
+        public StudentController(IOptions<ConfigurationManagement> pConfiguration)
+        {
+            _Service = pConfiguration;
+        }
+        
+        
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: StudentController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: StudentController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: StudentController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task <IEnumerable<StudentModel>> getAll()
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                List<StudentModel> lstStudent = new();
+                using (HttpClient _HttpClient = new())
+                {
+                    HttpResponseMessage responseMessage = await _HttpClient.GetAsync(_Service.Value.BaseAddressApi + "api/student/getall");
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        lstStudent = JsonConvert.DeserializeObject<List<StudentModel>>(await responseMessage.Content.ReadAsStringAsync());
+                    }
+                }
+                return lstStudent;
             }
-            catch
+            catch (Exception exception)
             {
-                return View();
+                throw new Exception(string.Concat("Error del servidor: ", exception.Message), exception);
             }
         }
-
-        // GET: StudentController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: StudentController/Edit/5
         [HttpPost]
-        
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task <HttpResponseMessage> Create([FromBody] StudentModel studentModel)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (HttpClient _HttpClient = new())
+                {
+                    string strStudent = JsonConvert.SerializeObject(studentModel);
+                    HttpContent _HttpContent = new StringContent(strStudent, Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseMessage = await _HttpClient.PostAsync(_Service.Value.BaseAddressApi + "api/student/create", _HttpContent);
+                    return responseMessage;
+                }
             }
-            catch
+            catch (Exception exception)
             {
-                return View();
+                throw new Exception(string.Concat("Se presento un error al momento de enviar los datos al servidor: ", exception));
             }
         }
 
-        // GET: StudentController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: StudentController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [HttpDelete]
+        public async Task<HttpResponseMessage> Delete(int pId)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (HttpClient _HttpClient = new())
+                {
+                    HttpResponseMessage responseMessage = await _HttpClient.DeleteAsync(_Service.Value.BaseAddressApi + "Api/Person/Delete?pId=" + pId);
+                    return responseMessage;
+                }
             }
-            catch
+            catch (Exception exception)
             {
-                return View();
+                throw new Exception(string.Concat("Se presento un error al momento de enviar los datos al servidor: ", exception));
             }
         }
     }

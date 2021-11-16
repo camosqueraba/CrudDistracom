@@ -1,3 +1,14 @@
 ﻿@{
+
     Layout = "_Layout";
+
+
 }
+
+
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.Extensions.Options;
+@using CrudDistracom.Models.core
+@inject IOptions<ConfigurationManagement> _configurationManagement;
+<script> var _baseAddress = "@_configurationManagement.Value.BaseAddress"; </script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>

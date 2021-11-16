@@ -17,6 +17,10 @@ namespace CrudDistracom.Models
         public string phone { get; set; }
         public string address { get; set; }
 
+        public string courses { get; set; }
+        public ProfileInterestsModel profileInterests  { get; set; }
 
-    }
+        public UserNotificationsModel userNotifications { get; set; }
+
+     }
 }
