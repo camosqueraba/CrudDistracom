@@ -49,19 +49,24 @@ function printStudents(students) {
         let delete_button = document.createElement("button");
         delete_button.className = "btn btn-danger";
         delete_button.innerHTML = "Delete";
+        delete_button.id = student.id;
+        //delete_button.addEventListener('click', deleteStudent);
 
         delete_button.onclick = function () {
 
+            deleteStudent(this.id);
+        }
             
 
-            const response = await fetch(_baseAddress + 'Student/Delete/' + student.id , {
-                method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-                // mode: 'cors', // no-cors, *cors, same-origin
+        //    const response = await fetch(_baseAddress + 'Student/Delete/' + student.id , {
+        //        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        //        // mode: 'cors', // no-cors, *cors, same-origin
                 
                 
-            });
+        //    });
             
-        }
+        //}
+
 
         td.appendChild(delete_button);
 
@@ -72,7 +77,12 @@ function printStudents(students) {
     
 }
 
-function createStudent() {
+async function deleteStudent(idStudent) {
 
+    console.log(idStudent);
+    const response = await fetch(_baseAddress + 'Student/Delete?pId=' + idStudent, {
+               method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+               
+    });
 
 }

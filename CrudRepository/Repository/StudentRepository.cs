@@ -193,7 +193,7 @@ namespace CrudRepository.Repository
                     try
                     {
                         _SqlConnection.Open();
-                        SqlCommand _SqlCommand = new("dbo.SPDeleteStudentById", _SqlConnection)
+                        SqlCommand _SqlCommand = new("dbo.deleteStudentById", _SqlConnection)
                         {
                             CommandType = CommandType.StoredProcedure
                         };

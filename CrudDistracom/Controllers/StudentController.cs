@@ -79,7 +79,7 @@ namespace CrudDistracom.Controllers
             {
                 using (HttpClient _HttpClient = new())
                 {
-                    HttpResponseMessage responseMessage = await _HttpClient.DeleteAsync(_Service.Value.BaseAddressApi + "Api/Person/Delete?pId=" + pId);
+                    HttpResponseMessage responseMessage = await _HttpClient.DeleteAsync(_Service.Value.BaseAddressApi + "api/student/delete?id=" + pId);
                     return responseMessage;
                 }
             }
