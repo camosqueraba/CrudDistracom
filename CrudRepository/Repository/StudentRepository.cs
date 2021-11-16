@@ -134,6 +134,9 @@ namespace CrudRepository.Repository
                                 objStudent.phone = _SqlDataReader.GetString(5);
                                 objStudent.email = _SqlDataReader.GetString(6);
                                 objStudent.address = _SqlDataReader.GetString(7);
+                                objStudent.courses = _SqlDataReader.GetString(8);
+                                objStudent.userNotifications = JsonConvert.DeserializeObject<UserNotifications>(_SqlDataReader.GetString(10).Replace("idStudent","StudentID").Replace("[","").Replace("]",""));
+                                objStudent.profileInterests = JsonConvert.DeserializeObject<ProfileInterests>(_SqlDataReader.GetString(9).Replace("idStudent", "StudentID").Replace("[", "").Replace("]", ""));
                             }
                         }
                     }

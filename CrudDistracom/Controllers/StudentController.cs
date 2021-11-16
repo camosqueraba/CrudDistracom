@@ -88,5 +88,47 @@ namespace CrudDistracom.Controllers
                 throw new Exception(string.Concat("Se presento un error al momento de enviar los datos al servidor: ", exception));
             }
         }
+
+
+        [HttpGet]
+        public async Task<StudentModel> GetById(int pId)
+        {
+            try
+            {
+                StudentModel objStudent = new();
+                using (HttpClient _HttpClient = new())
+                {
+                    HttpResponseMessage responseMessage = await _HttpClient.GetAsync(_Service.Value.BaseAddressApi + "api/student/getbyid?id=" + pId);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        objStudent = JsonConvert.DeserializeObject<StudentModel>(await responseMessage.Content.ReadAsStringAsync());
+                    }
+                }
+                return objStudent;
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(string.Concat("Error del servidor: ", exception.Message), exception);
+            }
+        }
+
+        [HttpPut]
+        public async Task<HttpResponseMessage> Update([FromBody] StudentModel pStudent)
+        {
+            try
+            {
+                using (HttpClient _HttpClient = new())
+                {
+                    string strStudent = JsonConvert.SerializeObject(pStudent);
+                    HttpContent _HttpContent = new StringContent(strStudent, Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseMessage = await _HttpClient.PutAsync(_Service.Value.BaseAddressApi + "api/student/update", _HttpContent);
+                    return responseMessage;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(string.Concat("Se presento un error al momento de enviar los datos al servidor: ", exception));
+            }
+        }
     }
 }
